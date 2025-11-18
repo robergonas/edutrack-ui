@@ -1,0 +1,110 @@
+<div class="login-container">
+  <!-- Fondo animado -->
+  <div class="animated-background"></div>
+
+  <!-- Card de login -->
+  <div class="login-card fade-in">
+    <!-- Header con branding -->
+    <div class="login-header">
+      <fa-icon [icon]="faGraduationCap" class="brand-icon"></fa-icon>
+      <h1 class="brand-title">EDUTRACK</h1>
+      <p class="brand-subtitle">Sistema de Gestión Educativa</p>
+    </div>
+
+    <!-- Formulario -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <!-- Usuario -->
+      <div class="form-group">
+        <label for="username" class="form-label">Usuario</label>
+        <div class="input-group">
+          <span class="input-icon">
+            <fa-icon [icon]="faUser"></fa-icon>
+          </span>
+          <input
+            type="text"
+            id="userName"
+            class="form-control"
+            [class.is-invalid]="hasError('userName')"
+            formControlName="userName"
+            placeholder="Ingrese su usuario"
+            autocomplete="userName"
+          />
+        </div>
+        <div class="error-message" *ngIf="hasError('userName')">
+          {{ getErrorMessage('userName') }}
+        </div>
+      </div>
+
+      <!-- Contraseña -->
+      <div class="form-group">
+        <label for="password" class="form-label">Contraseña</label>
+        <div class="input-group">
+          <span class="input-icon">
+            <fa-icon [icon]="faLock"></fa-icon>
+          </span>
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            class="form-control"
+            [class.is-invalid]="hasError('password')"
+            formControlName="password"
+            placeholder="Ingrese su contraseña"
+            autocomplete="current-password"
+          />
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+          >
+            <fa-icon [icon]="showPassword ? faEyeSlash : faEye"></fa-icon>
+          </button>
+        </div>
+        <div class="error-message" *ngIf="hasError('password')">
+          {{ getErrorMessage('password') }}
+        </div>
+      </div>
+
+      <!-- Recordar usuario -->
+      <div class="form-check-group">
+        <input
+          type="checkbox"
+          id="rememberMe"
+          class="form-check-input"
+          formControlName="rememberMe"
+        />
+        <label for="rememberMe" class="form-check-label">Recordarme</label>
+      </div>
+
+      <!-- Captcha -->
+      <div class="captcha-container">
+        <div id="recaptcha-container"></div>
+        <div class="error-message" *ngIf="loginForm.get('recaptcha')?.touched && !captchaResolved">
+          Por favor, complete el captcha
+        </div>
+      </div>
+
+      <!-- Botón de login -->
+      <button type="submit" class="btn-login" [disabled]="loading" [class.loading]="loading">
+        <span *ngIf="!loading">
+          <fa-icon [icon]="faSignInAlt"></fa-icon>
+          INGRESAR
+        </span>
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+        <span *ngIf="loading">Ingresando...</span>
+      </button>
+    </form>
+
+    <!-- Enlaces de ayuda -->
+    <div class="login-footer">
+      <a href="javascript:void(0)" class="link-help" (click)="openForgotPasswordModal()">
+        ¿Olvidó su clave?
+      </a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="login-page-footer">
+    <p>&copy; 2025 EduTrack. Todos los derechos reservados.</p>
+  </footer>
+</div>

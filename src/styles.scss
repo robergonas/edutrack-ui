@@ -1,1 +1,520 @@
 /* You can add global styles to this file, and also import other style files */
+/* ========================================
+   EDUTRACK - ESTILOS GLOBALES
+   Sistema de Gestión Educativa
+   ======================================== */
+
+/* ========================================
+   1. VARIABLES DE BOOTSTRAP PERSONALIZADAS
+   ======================================== */
+
+// Colores principales
+$primary: #6366f1; // Indigo
+$secondary: #8b5cf6; // Violet
+$success: #10b981; // Green
+$danger: #ef4444; // Red
+$warning: #f59e0b; // Amber
+$info: #3b82f6; // Blue
+$light: #f1f5f9; // Slate 100
+$dark: #0f172a; // Slate 950
+
+// Tema oscuro - Variables de fondo y texto
+$body-bg: #0f172a; // Slate 950 (fondo principal)
+$body-color: #e2e8f0; // Slate 200 (texto principal)
+$card-bg: #1e293b; // Slate 800 (tarjetas)
+$card-border: #334155; // Slate 700 (bordes)
+$input-bg: #334155; // Slate 700 (inputs)
+$input-border: #475569; // Slate 600 (bordes inputs)
+
+// Tipografía
+$font-family-base: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+$font-size-base: 0.95rem;
+$line-height-base: 1.6;
+
+// Espaciados
+$spacer: 1rem;
+
+// Bordes
+$border-radius: 0.375rem;
+$border-radius-sm: 0.25rem;
+$border-radius-lg: 0.5rem;
+
+// Sombras
+$box-shadow:
+  0 1px 3px 0 rgba(0, 0, 0, 0.3),
+  0 1px 2px -1px rgba(0, 0, 0, 0.3);
+$box-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+$box-shadow-lg:
+  0 10px 15px -3px rgba(0, 0, 0, 0.4),
+  0 4px 6px -4px rgba(0, 0, 0, 0.4);
+
+// Importar Bootstrap con variables personalizadas
+@import 'bootstrap/scss/bootstrap';
+
+/* ========================================
+   2. ESTILOS GLOBALES BASE
+   ======================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: $body-bg;
+  color: $body-color;
+  font-family: $font-family-base;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================
+   3. COMPONENTES PERSONALIZADOS
+   ======================================== */
+
+// Cards (Tarjetas)
+.card {
+  background-color: $card-bg;
+  border-color: $card-border;
+  box-shadow: $box-shadow;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: $box-shadow-lg;
+    transform: translateY(-2px);
+  }
+
+  .card-header {
+    background-color: rgba(51, 65, 85, 0.5);
+    border-bottom-color: $card-border;
+    color: $body-color;
+    font-weight: 600;
+  }
+
+  .card-footer {
+    background-color: rgba(51, 65, 85, 0.3);
+    border-top-color: $card-border;
+  }
+}
+
+// Tablas
+.table {
+  --bs-table-bg: #{$card-bg};
+  --bs-table-color: #{$body-color};
+  --bs-table-border-color: #{$card-border};
+  --bs-table-striped-bg: rgba(51, 65, 85, 0.5);
+  --bs-table-striped-color: #{$body-color};
+  --bs-table-hover-bg: rgba(71, 85, 105, 0.5);
+  --bs-table-hover-color: #{$body-color};
+
+  thead {
+    border-bottom: 2px solid $card-border;
+
+    th {
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      color: #94a3b8; // Slate 400
+    }
+  }
+
+  tbody tr {
+    transition: background-color 0.2s ease;
+  }
+}
+
+// Formularios
+.form-control,
+.form-select {
+  background-color: $input-bg;
+  border-color: $input-border;
+  color: $body-color;
+  transition: all 0.2s ease;
+
+  &:focus {
+    background-color: $input-bg;
+    border-color: $primary;
+    color: $body-color;
+    box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+  }
+
+  &::placeholder {
+    color: #94a3b8; // Slate 400
+  }
+
+  &:disabled {
+    background-color: rgba(51, 65, 85, 0.5);
+    opacity: 0.6;
+  }
+}
+
+.form-label {
+  color: #cbd5e1; // Slate 300
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.form-check-input {
+  background-color: $input-bg;
+  border-color: $input-border;
+
+  &:checked {
+    background-color: $primary;
+    border-color: $primary;
+  }
+
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+  }
+}
+
+// Botones
+.btn {
+  border-radius: $border-radius;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: none;
+
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+
+  &:hover {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  }
+}
+
+// Modales
+.modal-content {
+  background-color: $card-bg;
+  color: $body-color;
+  border: 1px solid $card-border;
+  box-shadow: $box-shadow-lg;
+}
+
+.modal-header {
+  border-bottom-color: $card-border;
+  background-color: rgba(51, 65, 85, 0.5);
+
+  .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+  }
+}
+
+.modal-footer {
+  border-top-color: $card-border;
+  background-color: rgba(51, 65, 85, 0.3);
+}
+
+// Dropdown
+.dropdown-menu {
+  background-color: $card-bg;
+  border-color: $card-border;
+  box-shadow: $box-shadow-lg;
+
+  .dropdown-item {
+    color: $body-color;
+    transition: background-color 0.2s ease;
+
+    &:hover,
+    &:focus {
+      background-color: rgba(99, 102, 241, 0.2);
+      color: $body-color;
+    }
+
+    &:active {
+      background-color: rgba(99, 102, 241, 0.3);
+    }
+  }
+
+  .dropdown-divider {
+    border-top-color: $card-border;
+  }
+}
+
+// Navegación
+.navbar {
+  background-color: $card-bg !important;
+  border-bottom: 1px solid $card-border;
+  box-shadow: $box-shadow;
+
+  .navbar-brand,
+  .nav-link {
+    color: $body-color !important;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $primary !important;
+    }
+  }
+
+  .navbar-toggler {
+    border-color: $card-border;
+
+    &:focus {
+      box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+    }
+  }
+}
+
+// Badges
+.badge {
+  font-weight: 500;
+  padding: 0.35em 0.65em;
+}
+
+// Alertas
+.alert {
+  border: none;
+  border-left: 4px solid;
+
+  &.alert-primary {
+    background-color: rgba(99, 102, 241, 0.15);
+    border-left-color: $primary;
+    color: #a5b4fc; // Indigo 300
+  }
+
+  &.alert-success {
+    background-color: rgba(16, 185, 129, 0.15);
+    border-left-color: $success;
+    color: #6ee7b7; // Green 300
+  }
+
+  &.alert-danger {
+    background-color: rgba(239, 68, 68, 0.15);
+    border-left-color: $danger;
+    color: #fca5a5; // Red 300
+  }
+
+  &.alert-warning {
+    background-color: rgba(245, 158, 11, 0.15);
+    border-left-color: $warning;
+    color: #fcd34d; // Amber 300
+  }
+
+  &.alert-info {
+    background-color: rgba(59, 130, 246, 0.15);
+    border-left-color: $info;
+    color: #93c5fd; // Blue 300
+  }
+}
+
+// Breadcrumbs
+.breadcrumb {
+  background-color: transparent;
+
+  .breadcrumb-item {
+    color: #94a3b8; // Slate 400
+
+    &.active {
+      color: $body-color;
+    }
+
+    a {
+      color: $primary;
+      text-decoration: none;
+
+      &:hover {
+        color: lighten($primary, 10%);
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+// Pagination
+.pagination {
+  .page-link {
+    background-color: $card-bg;
+    border-color: $card-border;
+    color: $body-color;
+
+    &:hover {
+      background-color: rgba(99, 102, 241, 0.2);
+      border-color: $primary;
+      color: $body-color;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+    }
+  }
+
+  .page-item.active .page-link {
+    background-color: $primary;
+    border-color: $primary;
+  }
+
+  .page-item.disabled .page-link {
+    background-color: rgba(51, 65, 85, 0.5);
+    border-color: $card-border;
+    color: #64748b; // Slate 500
+  }
+}
+
+// Progress Bar
+.progress {
+  background-color: rgba(51, 65, 85, 0.5);
+}
+
+/* ========================================
+   4. UTILIDADES PERSONALIZADAS
+   ======================================== */
+
+// Scrollbar personalizado
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: $card-bg;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #475569; // Slate 600
+  border-radius: 4px;
+
+  &:hover {
+    background: #64748b; // Slate 500
+  }
+}
+
+// Loading spinner personalizado
+.spinner-edutrack {
+  border: 3px solid rgba(99, 102, 241, 0.2);
+  border-top-color: $primary;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Sombras personalizadas
+.shadow-custom {
+  box-shadow: $box-shadow-lg;
+}
+
+.shadow-custom-sm {
+  box-shadow: $box-shadow-sm;
+}
+
+// Transiciones suaves
+.transition-smooth {
+  transition: all 0.3s ease;
+}
+
+// Texto con gradiente
+.text-gradient {
+  background: linear-gradient(135deg, $primary 0%, $secondary 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// Contenedor principal
+.container-edutrack {
+  min-height: calc(100vh - 60px);
+  padding: 2rem 0;
+}
+
+/* ========================================
+   5. RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .table {
+    font-size: 0.85rem;
+  }
+
+  .card {
+    margin-bottom: 1rem;
+  }
+
+  .btn {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* ========================================
+   6. ANIMACIONES
+   ======================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease;
+}
+
+/* ========================================
+   7. CLASES DE AYUDA
+   ======================================== */
+
+.text-muted-custom {
+  color: #94a3b8 !important; // Slate 400
+}
+
+.border-custom {
+  border-color: $card-border !important;
+}
+
+.bg-card {
+  background-color: $card-bg !important;
+}
+
+.bg-input {
+  background-color: $input-bg !important;
+}
+
+// Link personalizado
+a {
+  color: $primary;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: lighten($primary, 10%);
+    text-decoration: underline;
+  }
+}
+
+/* ========================================
+   FIN DE ESTILOS GLOBALES
+   ======================================== */
