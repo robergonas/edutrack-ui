@@ -1,0 +1,30 @@
+// Estilos mínimos para el modal de profesores
+// Usando principalmente clases de Bootstrap
+
+// Mejorar visibilidad del switch
+.form-check-input:checked {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+// Asegurar que el modal no sea demasiado alto
+::ng-deep .modal-dialog {
+  max-width: 700px;
+}
+
+::ng-deep .modal-body {
+  max-height: calc(100vh - 250px);
+  overflow-y: auto;
+}
+
+// Responsive
+@media (max-width: 768px) {
+  ::ng-deep .modal-dialog {
+    max-width: 95%;
+    margin: 0.5rem auto;
+  }
+
+  ::ng-deep .modal-body {
+    max-height: calc(100vh - 200px);
+  }
+}

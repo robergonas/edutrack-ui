@@ -1,0 +1,51 @@
+
+    <div class="modal-header">
+      <h2 class="modal-title">
+        <fa-icon [icon]="faHistory"></fa-icon>
+        Historial de Cambios - {{ teacherName }}
+      </h2>
+      <button type="button" class="btn-close" (click)="activeModal.dismiss()">
+        <fa-icon [icon]="faTimes"></fa-icon>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="timeline" *ngIf="!loading && history.length > 0">
+        <div class="timeline-item" *ngFor="let item of history">
+          <div class="timeline-badge" [class]="getActionClass(item.action)">
+            <fa-icon [icon]="getActionIcon(item.action)"></fa-icon>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <h4>{{ getActionLabel(item.action) }}</h4>
+              <span class="timeline-date">{{ formatDate(item.timestamp) }}</span>
+            </div>
+            <div class="timeline-user">
+              <fa-icon [icon]="faUser"></fa-icon>
+              {{ item.userName }}
+            </div>
+            <div class="timeline-changes" *ngIf="item.changes.length > 0">
+              <div class="change-item" *ngFor="let change of item.changes">
+                <span class="change-field">{{ change.field }}:</span>
+                <span class="change-old">{{ change.oldValue || '-' }}</span>
+                <span class="change-arrow">→</span>
+                <span class="change-new">{{ change.newValue || '-' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="loading-state" *ngIf="loading">
+        <div class="spinner"></div>
+        <p>Cargando historial...</p>
+      </div>
+
+      <div class="empty-state" *ngIf="!loading && history.length === 0">
+        <p>No hay historial de cambios disponible</p>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-primary" (click)="activeModal.dismiss()">Cerrar</button>
+    </div>

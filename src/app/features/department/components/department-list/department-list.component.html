@@ -1,0 +1,140 @@
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <!-- Header -->
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <h4 class="mb-0">
+            <i class="fas fa-building me-2"></i>
+            Gestión de Departamentos
+          </h4>
+          <button class="btn btn-light btn-sm" (click)="onCreate()">
+            <i class="fas fa-plus me-1"></i>
+            Nuevo Departamento
+          </button>
+        </div>
+
+        <div class="card-body">
+          <!-- Barra de búsqueda y filtros -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fas fa-search"></i>
+                </span>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Buscar por nombre o descripción..."
+                  [value]="searchTerm"
+                  (input)="onSearch($any($event.target).value)"
+                >
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  *ngIf="searchTerm"
+                  (click)="clearSearch()">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <app-pagination
+                [currentPage]="currentPage"
+                [totalPages]="totalPages"
+                [totalRecords]="totalRecords"
+                [pageSize]="pageSize"
+                [loading]="loading"
+                (pageChange)="onPageChange($event)"
+                (pageSizeChange)="onPageSizeChange($event)">
+              </app-pagination>
+            </div>
+          </div>
+
+          <!-- Mensaje de error -->
+          <div class="alert alert-danger" *ngIf="errorMessage">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            {{ errorMessage }}
+          </div>
+
+          <!-- Loading spinner -->
+          <div class="text-center py-5" *ngIf="loading">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p class="mt-2">Cargando departamentos...</p>
+          </div>
+
+          <!-- Tabla de departamentos -->
+          <div class="table-responsive" *ngIf="!loading">
+            <table class="table table-hover table-striped">
+              <thead class="table-light">
+                <tr>
+                  <th class="sortable" (click)="onSort('departmentName')">
+                    Nombre
+                    <i class="fas fa-sort" *ngIf="orderBy !== 'departmentName'"></i>
+                    <i class="fas fa-sort-up" *ngIf="orderBy === 'departmentName' && orderDirection === 'ASC'"></i>
+                    <i class="fas fa-sort-down" *ngIf="orderBy === 'departmentName' && orderDirection === 'DESC'"></i>
+                  </th>
+                  <th>Descripción</th>
+                  <th class="sortable" (click)="onSort('createdAt')">
+                    Fecha Creación
+                    <i class="fas fa-sort" *ngIf="orderBy !== 'createdAt'"></i>
+                    <i class="fas fa-sort-up" *ngIf="orderBy === 'createdAt' && orderDirection === 'ASC'"></i>
+                    <i class="fas fa-sort-down" *ngIf="orderBy === 'createdAt' && orderDirection === 'DESC'"></i>
+                  </th>
+                  <th>Creado Por</th>
+                  <th class="text-center">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let dept of departments">
+                  <td>
+                    <strong>{{ dept.departmentName }}</strong>
+                  </td>
+                  <td>
+                    <span class="text-muted">{{ dept.description || 'Sin descripción' }}</span>
+                  </td>
+                  <td>
+                    {{ dept.createdAt | date: 'dd/MM/yyyy HH:mm' }}
+                  </td>
+                  <td>{{ dept.createdBy || '-' }}</td>
+                  <td class="text-center">
+                    <div class="btn-group btn-group-sm" role="group">
+                      <button
+                        class="btn btn-info"
+                        (click)="onView(dept)"
+                        title="Ver detalles">
+                        <i class="fas fa-eye"></i>
+                      </button>
+                      <button
+                        class="btn btn-warning"
+                        (click)="onEdit(dept)"
+                        title="Editar">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button
+                        class="btn btn-danger"
+                        (click)="onDelete(dept)"
+                        title="Eliminar">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="departments.length === 0 && !loading">
+                  <td colspan="5" class="text-center text-muted py-4">
+                    <i class="fas fa-inbox fa-3x mb-3 d-block"></i>
+                    No se encontraron departamentos
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -15,9 +15,9 @@ import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { Notyf } from 'notyf';
 import { Subject, takeUntil } from 'rxjs';
 
-import { AuthService } from '../../../service/auth.service';
+import { AuthService } from '../../service/auth.service';
 import { ForgotPasswordModalComponent } from '../forgot-password-modal/forgot-password-modal.component';
-import { ChangePasswordModalComponent } from '../change-password-modal/change-password-modal.component';
+import { ChangePasswordPageComponent } from '../change-password-page/change-password-page.component';
 
 @Component({
   selector: 'app-login',
@@ -274,7 +274,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   // Abrir modal "Cambiar contraseña" (solo para usuarios autenticados)
   openChangePasswordModal(): void {
-    const modalRef = this.modalService.open(ChangePasswordModalComponent, {
+    const modalRef = this.modalService.open(ChangePasswordPageComponent, {
       size: 'md',
       centered: true,
       backdrop: 'static',

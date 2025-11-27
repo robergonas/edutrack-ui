@@ -13,7 +13,7 @@ import {
 import { Notyf } from 'notyf';
 import { Subject, takeUntil } from 'rxjs';
 
-import { AuthService } from '../../../service/auth.service';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-forgot-password-modal',

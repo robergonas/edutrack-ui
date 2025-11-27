@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -8,34 +9,33 @@ import {
   AbstractControl,
   ValidationErrors,
 } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faLock,
   faEye,
   faEyeSlash,
-  faTimes,
+  faArrowLeft,
   faCheck,
   faShieldAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { Notyf } from 'notyf';
 import { Subject, takeUntil } from 'rxjs';
 
-import { AuthService } from '../../../service/auth.service';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
-  selector: 'app-change-password-modal',
+  selector: 'app-change-password-page',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule],
-  templateUrl: './change-password-modal.component.html',
-  styleUrls: ['./change-password-modal.component.scss'],
+  templateUrl: './change-password-page.component.html',
+  styleUrls: ['./change-password-page.component.scss'],
 })
-export class ChangePasswordModalComponent implements OnInit, OnDestroy {
+export class ChangePasswordPageComponent implements OnInit, OnDestroy {
   // Iconos Font Awesome
   faLock = faLock;
   faEye = faEye;
   faEyeSlash = faEyeSlash;
-  faTimes = faTimes;
+  faArrowLeft = faArrowLeft;
   faCheck = faCheck;
   faShieldAlt = faShieldAlt;
 
@@ -87,9 +87,9 @@ export class ChangePasswordModalComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
-    public activeModal: NgbActiveModal,
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -269,26 +269,37 @@ export class ChangePasswordModalComponent implements OnInit, OnDestroy {
 
     this.loading = true;
 
-    const { currentPassword, newPassword, confirmPassword } = this.changePasswordForm.value;
+    const { currentPassword, newPassword } = this.changePasswordForm.value;
 
-    // this.authService
-    //   .changePassword({ currentPassword, newPassword, confirmPassword })
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe({
-    //     next: (response) => {
-    //       this.loading = false;
-    //       this.notyf.success(response.message);
+    // Llamada real al servicio
+    this.authService
+      .changePassword(currentPassword, newPassword)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.loading = false;
+          this.notyf.success(response.message || 'Contraseña cambiada exitosamente');
 
-    //       Cerrar modal después de 1 segundo
-    //       setTimeout(() => {
-    //         this.activeModal.close('success');
-    //       }, 1000);
-    //     },
-    //     error: (error) => {
-    //       this.loading = false;
-    //       this.notyf.error(error.message || 'Error al cambiar contraseña');
-    //     },
-    //   });
+          // Limpiar el formulario
+          this.changePasswordForm.reset();
+
+          // Redirigir al dashboard después de 1.5 segundos
+          setTimeout(() => {
+            this.router.navigate(['/dashboard']);
+          }, 1500);
+        },
+        error: (error) => {
+          this.loading = false;
+          this.notyf.error(error.message || 'Error al cambiar contraseña');
+
+          // Limpiar solo el campo de contraseña actual si es error de autenticación
+          if (error.message?.toLowerCase().includes('incorrecta') ||
+              error.message?.toLowerCase().includes('actual')) {
+            this.changePasswordForm.patchValue({ currentPassword: '' });
+            this.changePasswordForm.get('currentPassword')?.markAsTouched();
+          }
+        },
+      });
   }
 
   // Validar requisitos de la contraseña
@@ -317,8 +328,22 @@ export class ChangePasswordModalComponent implements OnInit, OnDestroy {
     return /[@$!%*?&]/.test(password);
   }
 
-  // Cerrar modal
-  close(): void {
-    this.activeModal.dismiss('cancel');
+  // Volver al dashboard
+  goBack(): void {
+    this.router.navigate(['/dashboard']);
+  }
+
+  // Cancelar
+  cancel(): void {
+    if (this.changePasswordForm.dirty) {
+      const confirmed = confirm(
+        '¿Está seguro que desea cancelar? Los cambios no guardados se perderán.'
+      );
+      if (confirmed) {
+        this.router.navigate(['/dashboard']);
+      }
+    } else {
+      this.router.navigate(['/dashboard']);
+    }
   }
 }

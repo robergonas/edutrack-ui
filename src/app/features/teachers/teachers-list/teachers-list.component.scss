@@ -1,0 +1,38 @@
+// Estilos mínimos adicionales para el componente de profesores
+// La mayoría de los estilos ahora vienen de Bootstrap
+
+.gap-2 {
+  gap: 0.5rem !important;
+}
+
+// Ajustes para el avatar circular
+.rounded-circle {
+  border-radius: 50% !important;
+}
+
+// Asegurar que los dropdowns se vean bien
+::ng-deep .dropdown-menu {
+  min-width: 180px;
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+
+    fa-icon {
+      width: 1.25rem;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .card-header {
+    flex-direction: column !important;
+    gap: 1rem;
+
+    .d-flex {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}

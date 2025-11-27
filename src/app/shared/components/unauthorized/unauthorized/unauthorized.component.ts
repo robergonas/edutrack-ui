@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faExclamationTriangle, faArrowLeft, faHome } from '@fortawesome/free-solid-svg-icons';
-import { AuthService } from '../../../../features/service/auth.service';
+import { AuthService } from '../../../../features/auth/service/auth.service';
 
 @Component({
   selector: 'app-unauthorized',

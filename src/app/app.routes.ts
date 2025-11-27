@@ -48,7 +48,16 @@ export const routes: Routes = [
             (m) => m.DashboardHomeComponent
           ),
       },
-
+      // ==========================================
+      // CAMBIAR CLAVE
+      // ==========================================
+      {
+        path: 'change-password',
+        loadComponent: () =>
+          import(
+            './features/auth/components/change-password-page/change-password-page.component'
+          ).then((m) => m.ChangePasswordPageComponent),
+      },
       // ==========================================
       // ESTUDIANTES
       // ==========================================
@@ -113,10 +122,34 @@ export const routes: Routes = [
             data: { roles: ['Administrador', 'Secretaria'] },
           },
           {
-            path: 'schedule',
+            path: 'create',
             loadComponent: () =>
-              import('./features/teachers/schedule/schedule.component').then(
-                (m) => m.ScheduleComponent
+              import('./features/teachers/teachers-list/teachers-list.component').then(
+                (m) => m.TeachersListComponent
+              ),
+            data: { roles: ['Administrador'] },
+          },
+          {
+            path: ':id/edit',
+            loadComponent: () =>
+              import('./features/teachers/teachers-list/teachers-list.component').then(
+                (m) => m.TeachersListComponent
+              ),
+            data: { roles: ['Administrador', 'Secretaria'] },
+          },
+          {
+            path: ':id/view',
+            loadComponent: () =>
+              import('./features/teachers/teachers-list/teachers-list.component').then(
+                (m) => m.TeachersListComponent
+              ),
+            data: { roles: ['Administrador', 'Secretaria'] },
+          },
+          {
+            path: 'dashboard',
+            loadComponent: () =>
+              import('./features/teachers/teachers-dashboard/teachers-dashboard.component').then(
+                (m) => m.TeachersDashboardComponent
               ),
             data: { roles: ['Administrador'] },
           },

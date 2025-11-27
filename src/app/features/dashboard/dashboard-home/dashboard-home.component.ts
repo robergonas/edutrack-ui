@@ -12,7 +12,7 @@ import {
   faTrophy,
   faExclamationTriangle,
 } from '@fortawesome/free-solid-svg-icons';
-import { AuthService } from '../../../features/service/auth.service';
+import { AuthService } from '../../auth/service/auth.service';
 import {
   CurrentUser,
   StatCard,

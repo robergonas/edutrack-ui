@@ -1,0 +1,26 @@
+.pagination {
+  .page-link {
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+  }
+
+  .page-item.disabled .page-link {
+    cursor: not-allowed;
+  }
+
+  .page-item.active .page-link {
+    font-weight: bold;
+  }
+}
+
+.form-select {
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}

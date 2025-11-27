@@ -5,7 +5,7 @@
 
 // Welcome Banner
 .welcome-banner {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
   border-radius: 1rem;
   padding: 2rem;
   margin-bottom: 2rem;
@@ -13,7 +13,7 @@
   justify-content: space-between;
   align-items: center;
   color: white;
-  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
   position: relative;
   overflow: hidden;
 
@@ -76,19 +76,21 @@
 }
 
 .stat-card {
-  background: white;
+  background: #1e293b;
   border-radius: 0.75rem;
   padding: 1.5rem;
   display: flex;
   align-items: center;
   gap: 1rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
   border-left: 4px solid;
+  border: 1px solid #475569;
   transition: all 0.3s ease;
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    border-color: #6366f1;
   }
 
   .stat-icon {
@@ -106,14 +108,14 @@
 
     .stat-label {
       font-size: 0.875rem;
-      color: #6b7280;
+      color: #94a3b8;
       margin-bottom: 0.25rem;
     }
 
     .stat-value {
       font-size: 1.75rem;
       font-weight: 700;
-      color: #1f2937;
+      color: #e2e8f0;
     }
 
     .stat-trend {
@@ -140,19 +142,27 @@
 }
 
 .card {
-  background: white;
+  background: #1e293b;
+  border: 1px solid #475569;
   border-radius: 0.75rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
   overflow: hidden;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    border-color: #6366f1;
+  }
 
   .card-header {
     padding: 1.25rem 1.5rem;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid #475569;
+    background: rgba(51, 65, 85, 0.3);
 
     .card-title {
       font-size: 1.125rem;
       font-weight: 700;
-      color: #1f2937;
+      color: #e2e8f0;
       margin: 0;
     }
   }
@@ -171,9 +181,9 @@
 
 .quick-action-btn {
   padding: 1.25rem 1rem;
-  border: 2px solid;
+  border: 2px solid #475569;
   border-radius: 0.75rem;
-  background: white;
+  background: #334155;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -181,6 +191,7 @@
   gap: 0.75rem;
   font-size: 0.875rem;
   font-weight: 600;
+  color: #e2e8f0;
   transition: all 0.2s ease;
 
   fa-icon {
@@ -189,7 +200,9 @@
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    border-color: #6366f1;
+    background: rgba(99, 102, 241, 0.1);
   }
 }
 
@@ -206,8 +219,15 @@
   gap: 1rem;
   padding: 1rem;
   border-radius: 0.5rem;
-  background: #f9fafb;
+  background: #334155;
+  border: 1px solid #475569;
   position: relative;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(51, 65, 85, 0.8);
+    border-color: #6366f1;
+  }
 
   .activity-dot {
     width: 12px;
@@ -235,25 +255,25 @@
 
     .activity-title {
       font-weight: 600;
-      color: #1f2937;
+      color: #e2e8f0;
       margin-bottom: 0.25rem;
     }
 
     .activity-description {
       font-size: 0.875rem;
-      color: #6b7280;
+      color: #94a3b8;
     }
   }
 
   .activity-time {
     font-size: 0.8125rem;
-    color: #9ca3af;
+    color: #64748b;
     white-space: nowrap;
   }
 
   &.empty {
     justify-content: center;
-    color: #9ca3af;
+    color: #64748b;
     font-style: italic;
   }
 }
@@ -270,12 +290,19 @@
   gap: 1rem;
   padding: 1rem;
   border-radius: 0.5rem;
-  background: #f9fafb;
+  background: #334155;
+  border: 1px solid #475569;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(51, 65, 85, 0.8);
+    border-color: #6366f1;
+  }
 
   .schedule-date {
     width: 60px;
     height: 60px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
     border-radius: 0.5rem;
     display: flex;
     flex-direction: column;
@@ -302,13 +329,13 @@
 
     .schedule-title {
       font-weight: 600;
-      color: #1f2937;
+      color: #e2e8f0;
       margin-bottom: 0.25rem;
     }
 
     .schedule-description {
       font-size: 0.875rem;
-      color: #6b7280;
+      color: #94a3b8;
     }
   }
 }
@@ -325,18 +352,49 @@
   padding: 1rem 1.5rem;
   border-radius: 0.75rem;
   border-left: 4px solid;
+  border: 1px solid;
 
   fa-icon {
     font-size: 1.5rem;
   }
 
   &.alert-warning {
-    background: #fef3c7;
+    background: rgba(245, 158, 11, 0.1);
     border-color: #f59e0b;
-    color: #92400e;
+    color: #fbbf24;
 
     fa-icon {
       color: #f59e0b;
+    }
+  }
+
+  &.alert-info {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: #3b82f6;
+    color: #93c5fd;
+
+    fa-icon {
+      color: #3b82f6;
+    }
+  }
+
+  &.alert-success {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: #10b981;
+    color: #6ee7b7;
+
+    fa-icon {
+      color: #10b981;
+    }
+  }
+
+  &.alert-danger {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: #ef4444;
+    color: #fca5a5;
+
+    fa-icon {
+      color: #ef4444;
     }
   }
 }

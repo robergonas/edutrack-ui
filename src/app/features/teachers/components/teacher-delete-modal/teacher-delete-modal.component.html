@@ -1,0 +1,60 @@
+
+    <div class="modal-header" [class.danger]="teacher?.status" [class.success]="!teacher?.status">
+      <h2 class="modal-title">
+        <fa-icon [icon]="teacher?.status ? faExclamationTriangle : faCheckCircle"></fa-icon>
+        {{ teacher?.status ? 'Desactivar Profesor' : 'Activar Profesor' }}
+      </h2>
+      <button type="button" class="btn-close" (click)="activeModal.dismiss('cancel')">
+        <fa-icon [icon]="faTimes"></fa-icon>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="teacher-details">
+        <div class="avatar" [style.background-color]="getAvatarColor(teacher?.employeeFullName || '')">
+          {{ getInitials(teacher?.employeeFullName || '') }}
+        </div>
+        <div class="details">
+          <h3>{{ teacher?.employeeFullName }}</h3>
+          <p><strong>Especialidad:</strong> {{ teacher?.specialty || '-' }}</p>
+          <p><strong>Grado:</strong> {{ teacher?.degree || '-' }}</p>
+          <p><strong>Departamento:</strong> {{ teacher?.departmentName || '-' }}</p>
+        </div>
+      </div>
+
+      <div class="warning-message" *ngIf="teacher?.status">
+        <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+        <p>¿Está seguro que desea desactivar este profesor? Esta acción cambiará su estado a inactivo.</p>
+      </div>
+
+      <div class="success-message" *ngIf="!teacher?.status">
+        <fa-icon [icon]="faCheckCircle"></fa-icon>
+        <p>¿Desea activar nuevamente este profesor? Podrá asignarle cursos y horarios.</p>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="activeModal.dismiss('cancel')"
+        [disabled]="loading"
+      >
+        Cancelar
+      </button>
+      <button
+        type="button"
+        [class]="teacher?.status ? 'btn btn-danger' : 'btn btn-success'"
+        (click)="confirmAction()"
+        [disabled]="loading"
+      >
+        <span *ngIf="!loading">
+          <fa-icon [icon]="teacher?.status ? faTrash : faToggleOn"></fa-icon>
+          {{ teacher?.status ? 'Desactivar' : 'Activar' }}
+        </span>
+        <span *ngIf="loading" class="loading-spinner">
+          <span class="spinner"></span>
+          Procesando...
+        </span>
+      </button>
+    </div>

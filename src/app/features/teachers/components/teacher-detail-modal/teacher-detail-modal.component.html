@@ -1,0 +1,110 @@
+
+    <div class="modal-header">
+      <h2 class="modal-title">
+        <fa-icon [icon]="faUser"></fa-icon>
+        Detalles del Profesor
+      </h2>
+      <button type="button" class="btn-close" (click)="activeModal.dismiss('cancel')">
+        <fa-icon [icon]="faTimes"></fa-icon>
+      </button>
+    </div>
+
+    <div class="modal-body" *ngIf="!loading && teacher">
+      <div class="teacher-header">
+        <div class="avatar" [style.background-color]="getAvatarColor(teacher.employeeFullName)">
+          {{ getInitials(teacher.employeeFullName) }}
+        </div>
+        <div class="header-info">
+          <h3>{{ teacher.employeeFullName }}</h3>
+          <span
+            class="status-badge"
+            [class.active]="teacher.status"
+            [class.inactive]="!teacher.status"
+          >
+            <fa-icon [icon]="teacher.status ? faCheckCircle : faTimesCircle"></fa-icon>
+            {{ teacher.status ? 'Activo' : 'Inactivo' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="details-grid">
+        <div class="detail-item">
+          <div class="detail-label">
+            <fa-icon [icon]="faUser"></fa-icon>
+            ID del Profesor
+          </div>
+          <div class="detail-value">{{ teacher.teacherId }}</div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-label">
+            <fa-icon [icon]="faGraduationCap"></fa-icon>
+            Especialidad
+          </div>
+          <div class="detail-value">{{ teacher.specialty || '-' }}</div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-label">
+            <fa-icon [icon]="faCertificate"></fa-icon>
+            Grado Académico
+          </div>
+          <div class="detail-value">{{ teacher.degree || '-' }}</div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-label">
+            <fa-icon [icon]="faBuilding"></fa-icon>
+            Departamento
+          </div>
+          <div class="detail-value">{{ teacher.departmentName || '-' }}</div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-label">
+            <fa-icon [icon]="faBriefcase"></fa-icon>
+            Posición
+          </div>
+          <div class="detail-value">{{ teacher.positionName || '-' }}</div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-label">
+            <fa-icon [icon]="faCalendar"></fa-icon>
+            Fecha de Contratación
+          </div>
+          <div class="detail-value">{{ formatDate(teacher.hireDate) }}</div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-label">
+            <fa-icon [icon]="faCalendar"></fa-icon>
+            Fecha de Registro
+          </div>
+          <div class="detail-value">{{ formatDate(teacher.createdAt) }}</div>
+        </div>
+
+        <div class="detail-item" *ngIf="teacher.updatedAt">
+          <div class="detail-label">
+            <fa-icon [icon]="faCalendar"></fa-icon>
+            Última Actualización
+          </div>
+          <div class="detail-value">{{ formatDate(teacher.updatedAt) }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-body loading-state" *ngIf="loading">
+      <div class="spinner"></div>
+      <p>Cargando detalles...</p>
+    </div>
+
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="activeModal.dismiss('cancel')"
+      >
+        Cerrar
+      </button>
+    </div>

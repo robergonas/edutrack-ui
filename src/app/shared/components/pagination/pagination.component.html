@@ -1,0 +1,76 @@
+<div class="row align-items-center">
+  <!-- Selector de tamaño de página -->
+  <div class="col-md-3">
+    <select
+      class="form-select"
+      [(ngModel)]="pageSize"
+      (change)="onPageSizeChange(pageSize)"
+      [disabled]="loading">
+      <option *ngFor="let option of pageSizeOptions" [value]="option.value">
+        {{ option.label }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Total de registros -->
+  <div class="col-md-3 text-center">
+    <span class="text-muted">
+      Total: {{ totalRecords }} registro(s)
+    </span>
+  </div>
+
+  <!-- Controles de paginación -->
+  <div class="col-md-6" *ngIf="totalPages > 1">
+    <nav>
+      <ul class="pagination justify-content-end mb-0">
+        <!-- Primera página -->
+        <li class="page-item" [class.disabled]="currentPage === 1 || loading">
+          <button class="page-link" (click)="onPageChange(1)" [disabled]="currentPage === 1 || loading">
+            <i class="fas fa-angle-double-left"></i>
+          </button>
+        </li>
+
+        <!-- Página anterior -->
+        <li class="page-item" [class.disabled]="currentPage === 1 || loading">
+          <button class="page-link" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1 || loading">
+            <i class="fas fa-angle-left"></i>
+          </button>
+        </li>
+
+        <!-- Páginas numeradas -->
+        <li
+          class="page-item"
+          *ngFor="let page of getPages()"
+          [class.active]="page === currentPage"
+          [class.disabled]="loading">
+          <button class="page-link" (click)="onPageChange(page)" [disabled]="loading">
+            {{ page }}
+          </button>
+        </li>
+
+        <!-- Página siguiente -->
+        <li class="page-item" [class.disabled]="currentPage === totalPages || loading">
+          <button class="page-link" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === totalPages || loading">
+            <i class="fas fa-angle-right"></i>
+          </button>
+        </li>
+
+        <!-- Última página -->
+        <li class="page-item" [class.disabled]="currentPage === totalPages || loading">
+          <button class="page-link" (click)="onPageChange(totalPages)" [disabled]="currentPage === totalPages || loading">
+            <i class="fas fa-angle-double-right"></i>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<!-- Indicador de página actual (solo si hay más de una página) -->
+<div class="row mt-2" *ngIf="totalPages > 1">
+  <div class="col-12 text-center">
+    <p class="text-muted mb-0">
+      Página {{ currentPage }} de {{ totalPages }}
+    </p>
+  </div>
+</div>

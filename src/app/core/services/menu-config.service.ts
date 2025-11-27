@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthService } from '../../features/service/auth.service';
+import { AuthService } from '../../features/auth/service/auth.service';
 import {
   faHome,
   faUsers,
@@ -45,6 +45,20 @@ export class MenuConfigService {
       route: '/dashboard',
     },
     {
+      id: 'profile',
+      label: 'Mi Perfil',
+      icon: faUserCog,
+      route: '/dashboard',
+      children: [
+        {
+          id: 'change-password',
+          label: 'Cambiar Contraseña',
+          icon: faCog,
+          route: '/dashboard/change-password',
+        },
+      ],
+    },
+    {
       id: 'students',
       label: 'Estudiantes',
       icon: faUserGraduate,
@@ -78,21 +92,28 @@ export class MenuConfigService {
       id: 'teachers',
       label: 'Profesores',
       icon: faChalkboardTeacher,
-      route: '/teachers',
+      route: '/dashboard/teachers',
       roles: ['Administrador', 'Secretaria'],
       children: [
         {
           id: 'teachers-list',
           label: 'Lista de Profesores',
           icon: faUsers,
-          route: '/teachers/list',
+          route: '/dashboard/teachers/list',
           roles: ['Administrador', 'Secretaria'],
         },
         {
-          id: 'teachers-schedule',
-          label: 'Horarios',
-          icon: faCalendarAlt,
-          route: '/teachers/schedule',
+          id: 'teachers-create',
+          label: 'Crear Profesor',
+          icon: faFileAlt,
+          route: '/dashboard/teachers/create',
+          roles: ['Administrador'],
+        },
+        {
+          id: 'teachers-dashboard',
+          label: 'Dashboard',
+          icon: faChartBar,
+          route: '/dashboard/teachers/dashboard',
           roles: ['Administrador'],
         },
       ],
@@ -207,7 +228,13 @@ export class MenuConfigService {
     console.log('🔑 Permisos:', currentUser.permissions);
     console.log('👔 Roles (IDs):', currentUser.userRoles);
 
-    return this.filterMenuByPermissions(this.menuItems, currentUser);
+    const filteredMenu = this.filterMenuByPermissions(this.menuItems, currentUser);
+
+    console.log('📋 Total items antes de filtrar:', this.menuItems.length);
+    console.log('📋 Total items después de filtrar:', filteredMenu.length);
+    console.log('🎯 Items filtrados:', filteredMenu);
+
+    return filteredMenu;
   }
 
   /**

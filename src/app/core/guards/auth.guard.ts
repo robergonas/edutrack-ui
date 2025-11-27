@@ -6,7 +6,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { AuthService } from '../../features/service/auth.service';
+import { AuthService } from '../../features/auth/service/auth.service';
 
 /**
  * Guard funcional para proteger rutas que requieren autenticación

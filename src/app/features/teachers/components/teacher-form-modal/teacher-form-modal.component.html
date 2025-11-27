@@ -1,0 +1,157 @@
+<div class="modal-header bg-primary text-white">
+  <h5 class="modal-title">
+    <fa-icon [icon]="faUser" class="me-2"></fa-icon>
+    {{ getTitle() }}
+  </h5>
+  <button type="button" class="btn-close btn-close-white" (click)="close()" aria-label="Close"></button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="teacherForm" (ngSubmit)="onSubmit()">
+
+    <!-- Selección de Empleado -->
+    <div class="mb-3" *ngIf="action === 'CREATE'">
+      <label class="form-label fw-bold">
+        <fa-icon [icon]="faUser" class="me-2 text-primary"></fa-icon>
+        Empleado <span class="text-danger">*</span>
+      </label>
+      <select 
+        class="form-select" 
+        formControlName="employeeId"
+        [class.is-invalid]="hasError('employeeId')">
+        <option [ngValue]="null">Seleccione un empleado...</option>
+        <option 
+          *ngFor="let employee of employees" 
+          [ngValue]="employee.employeeId"
+          [disabled]="!employee.isActive">
+          {{ employee.fullName }} - {{ employee.departmentName }} ({{ employee.positionName }})
+        </option>
+      </select>
+      <div class="invalid-feedback" *ngIf="hasError('employeeId')">
+        {{ getErrorMessage('employeeId') }}
+      </div>
+    </div>
+
+    <!-- Empleado (modo edición - solo lectura) -->
+    <div class="mb-3" *ngIf="action === 'EDIT'">
+      <label class="form-label fw-bold">
+        <fa-icon [icon]="faUser" class="me-2 text-primary"></fa-icon>
+        Empleado
+      </label>
+      <select 
+        class="form-select" 
+        formControlName="employeeId"
+        [disabled]="true">
+        <option *ngFor="let employee of employees" [ngValue]="employee.employeeId">
+          {{ employee.fullName }} - {{ employee.departmentName }} ({{ employee.positionName }})
+        </option>
+      </select>
+    </div>
+
+    <!-- Fila 1: Especialidad y Grado Académico -->
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">
+          <fa-icon [icon]="faGraduationCap" class="me-2 text-primary"></fa-icon>
+          Especialidad
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="specialty"
+          placeholder="Ej: Matemáticas, Física..."
+          [class.is-invalid]="hasError('specialty')"
+        />
+        <div class="invalid-feedback" *ngIf="hasError('specialty')">
+          {{ getErrorMessage('specialty') }}
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">
+          <fa-icon [icon]="faCertificate" class="me-2 text-primary"></fa-icon>
+          Grado Académico
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="degree"
+          placeholder="Ej: Licenciado, Magíster..."
+          [class.is-invalid]="hasError('degree')"
+        />
+        <div class="invalid-feedback" *ngIf="hasError('degree')">
+          {{ getErrorMessage('degree') }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Fila 2: Fecha de Contratación y Estado -->
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">
+          <fa-icon [icon]="faCalendar" class="me-2 text-primary"></fa-icon>
+          Fecha de Contratación <span class="text-danger">*</span>
+        </label>
+        <input
+          type="date"
+          class="form-control"
+          formControlName="hireDate"
+          [max]="maxDate"
+          [class.is-invalid]="hasError('hireDate')"
+        />
+        <small class="form-text text-muted">No se permiten fechas futuras</small>
+        <div class="invalid-feedback" *ngIf="hasError('hireDate')">
+          {{ getErrorMessage('hireDate') }}
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">
+          <fa-icon [icon]="faToggleOn" class="me-2 text-primary"></fa-icon>
+          Estado
+        </label>
+        <div class="form-check form-switch mt-2">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="status"
+            formControlName="status"
+            style="width: 3rem; height: 1.5rem; cursor: pointer;"
+          />
+          <label class="form-check-label ms-2 fw-bold" for="status" style="cursor: pointer;">
+            <span [class.text-success]="teacherForm.get('status')?.value" [class.text-danger]="!teacherForm.get('status')?.value">
+              {{ teacherForm.get('status')?.value ? 'Activo' : 'Inactivo' }}
+            </span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<div class="modal-footer bg-light">
+  <button
+    type="button"
+    class="btn btn-secondary"
+    (click)="close()"
+    [disabled]="loading">
+    <i class="fas fa-times me-1"></i>
+    Cancelar
+  </button>
+  <button
+    type="submit"
+    class="btn btn-primary"
+    (click)="onSubmit()"
+    [disabled]="loading || teacherForm.invalid">
+    <span *ngIf="!loading">
+      <fa-icon [icon]="faSave" class="me-1"></fa-icon>
+      {{ action === 'CREATE' ? 'Crear Profesor' : 'Guardar Cambios' }}
+    </span>
+    <span *ngIf="loading">
+      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+      Procesando...
+    </span>
+  </button>
+</div>

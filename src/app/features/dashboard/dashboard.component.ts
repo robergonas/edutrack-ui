@@ -12,17 +12,17 @@ import {
   faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { filter } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { AuthService } from '../../features/service/auth.service';
+import { AuthService } from '../auth/service/auth.service';
 import { MenuConfigService, MenuItem } from '../../core/services/menu-config.service';
-import { CurrentUser } from '../../features/auth/models/auth.models';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule, RouterModule, FontAwesomeModule],
-  templateUrl: './dashboard.component.html', // ✅ CAMBIADO: Ahora apunta al archivo HTML
-  styleUrls: ['./dashboard.component.scss'], // ✅ AGREGADO: Referencia al archivo de estilos
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   faBars = faBars;
@@ -34,7 +34,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   isMenuExpanded = false;
   isMobile = false;
-  currentUser: any = null; // ✅ CAMBIADO: tipo más flexible
+  isMobileMenuOpen = false; // ✅ AGREGADO: Propiedad que faltaba
+  currentUser: any = null;
   loginResponse: LoginResponse | null = null;
   menuItems: MenuItem[] = [];
   expandedMenuItems: Set<string> = new Set();
@@ -46,7 +47,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private menuConfigService: MenuConfigService,
-    private router: Router
+    private router: Router, // ✅ CORREGIDO: Era RouterModule, debe ser Router
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -102,10 +104,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.activeRoute = this.router.url;
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((event: any) => {
+      .subscribe((event: NavigationEnd) => {
         this.activeRoute = event.url;
         if (this.isMobile) {
           this.isMenuExpanded = false;
+          this.isMobileMenuOpen = false; // ✅ AGREGADO: Cerrar menú móvil también
         }
       });
   }
@@ -124,6 +127,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   toggleMenu(): void {
     this.isMenuExpanded = !this.isMenuExpanded;
+    this.isMobileMenuOpen = !this.isMobileMenuOpen; // ✅ AGREGADO: Sincronizar ambas propiedades
     console.log('🔄 Menu toggled:', this.isMenuExpanded);
   }
 
@@ -141,12 +145,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   navigateTo(route: string, hasChildren: boolean = false): void {
-    if (!hasChildren) {
-      console.log('🔗 Navegando a:', route);
-      this.router.navigate([route]);
-      if (this.isMobile) {
-        this.isMenuExpanded = false;
-      }
+    console.log('🔗 Navegando a:', route);
+
+    // Navegar normalmente a todas las rutas
+    this.router.navigate([route]);
+
+    // Cerrar menú móvil si está abierto
+    if (this.isMobile) {
+      this.isMobileMenuOpen = false;
+      this.isMenuExpanded = false;
     }
   }
 

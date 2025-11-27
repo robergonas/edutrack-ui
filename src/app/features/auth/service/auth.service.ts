@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 import {
   LoginRequest,
   LoginResponse,
@@ -12,7 +12,7 @@ import {
   UserEffectivePermissions,
   DecodedToken,
   ForgotPasswordRequest,
-} from '../auth/models/auth.models';
+} from '../models/auth.models';
 
 @Injectable({
   providedIn: 'root',
@@ -164,8 +164,9 @@ export class AuthService {
     });
 
     const request = {
+      userID: loginResponse?.userID,
       currentPassword,
-      newPassword,
+      newPassword
     };
 
     return this.http
