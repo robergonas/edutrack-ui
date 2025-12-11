@@ -20,7 +20,7 @@ import {
 export class TeachersService {
   private apiUrl = `${environment.apiUrl}/teachers`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   /**
    * Crear un nuevo profesor
@@ -63,7 +63,7 @@ export class TeachersService {
   list(filter: TeacherListFilter): Observable<TeacherListResponse> {
     let params = new HttpParams();
 
-    if (filter.departmentId!== undefined) {
+    if (filter.departmentId !== undefined) {
       params = params.set('departmentId', filter.departmentId.toString());
     }
     if (filter.status !== undefined) {
@@ -107,18 +107,16 @@ export class TeachersService {
    * Exportar lista de profesores a PDF
    */
   exportToPdf(filter: TeacherListFilter): Observable<Blob> {
-    let params = new HttpParams();
+    const dto = {
+      departmentId: filter.departmentId || null,
+      employeeFullName: filter.employeeFullName || null,
+      status: filter.status !== undefined ? filter.status : null,
+      page: filter.page || 1,
+      pageSize: filter.pageSize || 50
+    };
 
-    if (filter.departmentId) {
-      params = params.set('departmentId', filter.departmentId.toString());
-    }
-    if (filter.status !== undefined) {
-      params = params.set('status', filter.status.toString());
-    }
-
-    return this.http.get(`${this.apiUrl}/export/pdf`, {
-      params,
-      responseType: 'blob',
+    return this.http.post(`${this.apiUrl}/export_pdf`, dto, {
+      responseType: 'blob'
     });
   }
 }
